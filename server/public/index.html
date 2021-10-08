@@ -7,5 +7,35 @@
 
     <title>jQuery Server Calculator</title>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <h1>Server Side Calculator</h1>
+    </header>
+    <main class="container">
+      <div id="calculatorInputs">
+        <input
+          type="number"
+          id="firstNumberInput"
+          class="calcInput"
+          placeholder="Enter a number"
+        />
+        <button id="additionButton">+</button>
+        <button id="subtractionButton">-</button>
+        <button id="multiplicationButton">*</button>
+        <button id="divisionButton">/</button>
+        <input
+          type="number"
+          id="secondNumberInput"
+          class="calcInput"
+          placeholder="Enter a second number"
+        />
+        <button id="equalsButton">=</button>
+        <button id="clearButton">C</button>
+      </div>
+      <div id="currentResultContainer" class="container"></div>
+      <div id="resultsHistoryContainer">
+        <ul id="resultsHistory"></ul>
+      </div>
+    </main>
+  </body>
 </html>
