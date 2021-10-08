@@ -61,6 +61,14 @@ app.post(`/calculate`, (req, res) => {
   res.sendStatus(201);
 });
 
+// return the latest result and the history of results
+app.get(`/results`, (req, res) => {
+  res.send({
+    latestResult,
+    resultsHistory,
+  });
+});
+
 // function add(num1, num2) {
 //   return num1 + num2;
 // }
