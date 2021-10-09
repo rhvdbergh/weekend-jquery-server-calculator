@@ -16,19 +16,18 @@ function onReady() {
   updateDOM();
 
   // add event listeners
-  $(`.mathSymbolButton`).on(`click`, changeSymbol);
+  $(`.symbolButton`).on(`click`, addSymbol);
   $(`#equalsButton`).on(`click`, submitCalc);
   $(`#clearButton`).on(`click`, clearInputs);
 }
 
 //
-function changeSymbol() {
-  // the text of this button is the math operator needed
-  mathSymbol = $(this).text();
-  console.log('mathSymbol is', mathSymbol);
-  // add the selected button class so the user knows which
-  // math symbol was selected last
-  $(this).addClass(`selectedSymbol`);
+function addSymbol() {
+  // add the symbol of the selected button to the calculation
+  // use trim() to delete any whitespace added by html formatting
+  let newValue = $(`#calcInput`).val() + $(this).text().trim();
+  $(`#calcInput`).val(newValue);
+  // $(this).addClass(`selectedSymbol`);
 }
 
 function submitCalc() {
@@ -88,5 +87,5 @@ function clearInputs() {
   // reset the mathSymbol
   mathSymbol = null;
   // remove the selectedSymbol class from the math symbols
-  $(`.mathSymbolButton`).removeClass(`selectedSymbol`);
+  // $(`.clearableButton`).removeClass(`selectedSymbol`);
 }
