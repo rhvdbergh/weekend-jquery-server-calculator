@@ -32,21 +32,27 @@ function changeSymbol() {
 }
 
 function submitCalc() {
-  $.ajax({
-    method: 'POST',
-    url: '/calculate',
-    data: {
-      firstNumber: $(`#firstNumberInput`).val(),
-      secondNumber: $(`#secondNumberInput`).val(),
-      mathSymbol,
-    },
-  }).then((res) => {
-    // clear inputs
-    clearInputs();
-    // a calc has been submitted, so
-    beforeFirstSubmit = false;
-    updateDOM(res);
-  });
+  // only submit this information if the necessary fields
+  // have been filled in and selected
+  let firstNumber = $(`#firstNumberInput`).val();
+  let secondNumber = $(`#secondNumberInput`).val();
+  if (firstNumber && secondNumber && mathSymbol) {
+    $.ajax({
+      method: 'POST',
+      url: '/calculate',
+      data: {
+        firstNumber,
+        secondNumber,
+        mathSymbol,
+      },
+    }).then((res) => {
+      // clear inputs
+      clearInputs();
+      // a calc has been submitted, so
+      beforeFirstSubmit = false;
+      updateDOM(res);
+    });
+  } // end if
 }
 
 function updateDOM() {
