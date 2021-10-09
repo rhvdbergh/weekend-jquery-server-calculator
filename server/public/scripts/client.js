@@ -7,7 +7,7 @@ let beforeFirstSubmit = true;
 $(onReady);
 
 // save the latest clicked math symbol
-let mathSymbol;
+// let mathSymbol;
 
 function onReady() {
   console.log(`in jq`);
@@ -33,16 +33,15 @@ function addSymbol() {
 function submitCalc() {
   // only submit this information if the necessary fields
   // have been filled in and selected
-  let firstNumber = $(`#firstNumberInput`).val();
-  let secondNumber = $(`#secondNumberInput`).val();
-  if (firstNumber && secondNumber && mathSymbol) {
+  // let firstNumber = $(`#firstNumberInput`).val();
+  // let secondNumber = $(`#secondNumberInput`).val();
+  // TODO: validate before input, currently set to true to run
+  if (true) {
     $.ajax({
       method: 'POST',
       url: '/calculate',
       data: {
-        firstNumber,
-        secondNumber,
-        mathSymbol,
+        formulaToCalculate: $(`#calcInput`).val(),
       },
     }).then((res) => {
       // clear inputs
@@ -85,7 +84,7 @@ function clearInputs() {
   // focus on the first number
   $(`#calcInput`).focus();
   // reset the mathSymbol
-  mathSymbol = null;
+  // mathSymbol = null;
   // remove the selectedSymbol class from the math symbols
   // $(`.clearableButton`).removeClass(`selectedSymbol`);
 }

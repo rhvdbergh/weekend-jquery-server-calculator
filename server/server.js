@@ -25,37 +25,70 @@ app.post(`/calculate`, (req, res) => {
   console.log(`POST /calculate`);
   // do some logic, save the result, and then
   // send back the status to say it's created (that's probably the best code to use)
-  // data should look like this:
-  /*
-  {
-    firstNumber,
-    secondNumber,
-    mathSymbol
-  }
-  */
 
   latestResult = 0;
 
-  let num1 = req.body.firstNumber;
-  let num2 = req.body.secondNumber;
+  let formula = req.body.formulaToCalculate;
+  let numbers = [];
+  let operators = [];
 
-  switch (req.body.mathSymbol) {
-    case '+':
-      latestResult = num1 + num2;
-      break;
-    case '-':
-      latestResult = num1 - num2;
-      break;
-    case '*':
-      latestResult = num1 * num2;
-      break;
-    case '/':
-      latestResult = num1 / num2;
+  // add 0 to the beginning of formula if the first sign is an operator
+  // this is to make the calculation easier
+  if (`+-*`.includes(formula[0])) {
+    formula = `0${formula}`;
+    console.log(`first included +-* so 0 added:`, formula);
   }
 
-  resultsHistory.push(
-    `${num1} ${req.body.mathSymbol} ${num2} = ${latestResult}`
-  );
+  // but if the operator is /, this will cause a division by zero
+  // so send a Bad Request status code
+  if (formula[0] === `/`) {
+    res.sendStatus(400);
+    return;
+  }
+
+  // if the last sign is an operator, add 0 to the end
+  if (`+-*/`.includes(formula[formula.length - 1])) {
+    formula += `0`;
+  }
+
+  // find the indices of the operators
+  for (let i = 0; i < formula.length; i++) {
+    // if it's an operator, push it to the operators array
+    // include the operator and the index
+    if (`+-*/`.includes(formula[i])) {
+      operators.push({
+        operator: formula[i],
+        index: i,
+      });
+    }
+  }
+
+  console.log(`this is operators`, operators);
+
+  // do the calculations one for one until complete
+  let nextOperationIndex;
+  while (operators.length > 0) {
+    // determine the order of calculations
+    // if there's a * or / do that first
+    // the following .find() returns the index of the first / or *, or returns
+    // -1 if there aren't any left
+    nextOperationIndex = operators.findIndex((operation) => {
+      console.log(`in the nextOpI .find(), operation is:`, operation);
+      console.log(
+        `in the nextOpI .find(), operation.operator is`,
+        operation.operator
+      );
+      return operation.operator === '*' || operation.operator === '/';
+    });
+
+    console.log(`nextOperationIndex is`, nextOperationIndex);
+    nextOperationIndex = 0;
+    // if there are no * or / left, do the operations in order
+    operators.splice(nextOperationIndex, 1);
+  }
+  // then save result
+
+  resultsHistory.push(req.body.formulaToCalculate);
   console.log(latestResult);
   console.log(resultsHistory);
   res.sendStatus(201);
