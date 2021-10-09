@@ -53,8 +53,6 @@ app.post(`/calculate`, (req, res) => {
     formula += `0`;
   }
 
-  console.log(`this is operators`, operators);
-
   // find the indices of the operators
   for (let i = 0; i < formula.length; i++) {
     // if it's an operator, push it to the operators array
@@ -66,12 +64,27 @@ app.post(`/calculate`, (req, res) => {
       });
     }
   }
+  // test whether any two operators are directly next to each other
+  // only do this test if there's more than one operator
+  // if they are next to each other, send a Bad Request
+  if (operators.length > 0) {
+    for (let i = 0; i < operators.length - 1; i++) {
+      if (operators[i].index + 1 === operators[i + 1].index) {
+        // the operators are directly next to each other!
+        console.log(`the operators are next to each other`);
+        res.sendStatus(400);
+        return;
+      }
+    }
+  }
 
-  // do the calculations one for one until complete
-  let nextOperationIndex;
+  // // do the calculations one for one until complete
+  // let nextOperationIndex;
   while (operators.length > 0) {
     let result = 0;
 
+    // recalculate the operators after formula has changed
+    // because a calc has been done
     operators = [];
     // find the indices of the operators
     for (let i = 0; i < formula.length; i++) {
