@@ -36,12 +36,13 @@ function submitCalc() {
   // let firstNumber = $(`#firstNumberInput`).val();
   // let secondNumber = $(`#secondNumberInput`).val();
   // TODO: validate before input, currently set to true to run
-  if (true) {
+  let formula = $(`#calcInput`).val();
+  if (validInput(formula)) {
     $.ajax({
       method: 'POST',
       url: '/calculate',
       data: {
-        formulaToCalculate: $(`#calcInput`).val(),
+        formulaToCalculate: formula,
       },
     }).then((res) => {
       // clear inputs
@@ -88,3 +89,5 @@ function clearInputs() {
   // remove the selectedSymbol class from the math symbols
   // $(`.clearableButton`).removeClass(`selectedSymbol`);
 }
+
+function validInput(formula) {}
