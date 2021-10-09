@@ -29,7 +29,13 @@ function submitCalc() {
       secondNumber: $(`#secondNumberInput`).val(),
       mathSymbol,
     },
-  }).then(updateDOM);
+  }).then((res) => {
+    // clear the inputs
+    $(`.calcInput`).val(``);
+    // focus on the first number
+    $(`#firstNumberInput`).focus();
+    updateDOM(res);
+  });
 }
 
 function updateDOM(res) {
