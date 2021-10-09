@@ -29,7 +29,6 @@ app.post(`/calculate`, (req, res) => {
   latestResult = 0;
 
   let formula = req.body.formulaToCalculate;
-  let result;
   let operators = [];
   // the numbers that operations will be done on
   let num1; // num to the left of operator
@@ -54,6 +53,8 @@ app.post(`/calculate`, (req, res) => {
     formula += `0`;
   }
 
+  console.log(`this is operators`, operators);
+
   // find the indices of the operators
   for (let i = 0; i < formula.length; i++) {
     // if it's an operator, push it to the operators array
@@ -66,11 +67,23 @@ app.post(`/calculate`, (req, res) => {
     }
   }
 
-  console.log(`this is operators`, operators);
-
   // do the calculations one for one until complete
   let nextOperationIndex;
   while (operators.length > 0) {
+    let result = 0;
+
+    operators = [];
+    // find the indices of the operators
+    for (let i = 0; i < formula.length; i++) {
+      // if it's an operator, push it to the operators array
+      // include the operator and the index
+      if (`+-*/`.includes(formula[i])) {
+        operators.push({
+          operator: formula[i],
+          index: i,
+        });
+      }
+    }
     // determine the order of calculations
     // if there's a * or / do that first
     // the following .findIndex() returns the index of the first / or *, or returns
@@ -84,7 +97,7 @@ app.post(`/calculate`, (req, res) => {
       return operation.operator === '*' || operation.operator === '/';
     });
 
-    if (nextOperationIndex !== -1) {
+    if (nextOperationIndex === -1) {
       // there's no * or / or there aren't any left, so
       // we take the operators in the order they appear
       nextOperationIndex = 0;
@@ -101,26 +114,51 @@ app.post(`/calculate`, (req, res) => {
     nextOperationIndex === 0
       ? (startFrom = 0)
       : (startFrom = operators[nextOperationIndex - 1].index + 1);
-    num1 = formula.substring(startFrom, endAt);
+    num1 = Number(formula.substring(startFrom, endAt));
     // the second number should start just after this index, up to:
     // -- if this is operator is the last entry in the operators array, up to the end of the array
     // -- or, just before the index of the next operation in the operators array
     startFrom = operators[nextOperationIndex].index + 1;
     nextOperationIndex === operators.length - 1
-      ? (num2 = formula.substring(startFrom))
-      : (num2 = formula.substring(
-          startFrom,
-          operators[nextOperationIndex].index
+      ? (num2 = Number(formula.substring(startFrom)))
+      : (num2 = Number(
+          formula.substring(startFrom, operators[nextOperationIndex].index)
         ));
 
     console.log(`this is num1`, num1);
     console.log(`this is num2`, num2);
 
+    switch (operators[nextOperationIndex].operator) {
+      case '+':
+        result = result + num1 + num2;
+        break;
+      case '-':
+        result = result + num1 - num2;
+        break;
+      case '*':
+        result = result + num1 * num2;
+        break;
+      case '/':
+        result = result + num1 / num2;
+    }
+
+    // we have resolved one operator of the formula
+    // now we can replace that subformula with its result
+    // we'll use a replace
+    // a replace will find the first match, which will be this operation
+    let currentFormula =
+      '' + num1 + operators[nextOperationIndex].operator + num2;
+    console.log(`this is the currentFormula`, currentFormula);
+    console.log(`and this is the result`, result);
+    formula = formula.replace(currentFormula, result);
+
+    console.log(`this is the new formula after a calc`, formula);
+
     //remove this operator from the operators array
     operators.splice(nextOperationIndex, 1);
+    latestResult = result;
   } // end while
   // then save result
-  latestResult = result;
   // save the formula as received by user
   resultsHistory.push(req.body.formulaToCalculate);
   console.log(latestResult);
