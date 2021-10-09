@@ -116,11 +116,9 @@ app.post(`/calculate`, (req, res) => {
     console.log(`this is num1`, num1);
     console.log(`this is num2`, num2);
 
-    // if there are no * or / left, do the operations in order
-
     //remove this operator from the operators array
     operators.splice(nextOperationIndex, 1);
-  }
+  } // end while
   // then save result
   latestResult = result;
   // save the formula as received by user
