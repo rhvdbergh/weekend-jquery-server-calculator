@@ -29,7 +29,7 @@ app.post(`/calculate`, (req, res) => {
   latestResult = 0;
 
   let formula = req.body.formulaToCalculate;
-  let numbers = [];
+  let result;
   let operators = [];
   // the numbers that operations will be done on
   let num1; // num to the left of operator
@@ -122,7 +122,8 @@ app.post(`/calculate`, (req, res) => {
     operators.splice(nextOperationIndex, 1);
   }
   // then save result
-
+  latestResult = result;
+  // save the formula as received by user
   resultsHistory.push(req.body.formulaToCalculate);
   console.log(latestResult);
   console.log(resultsHistory);
