@@ -34,4 +34,20 @@ function submitCalc() {
 
 function updateDOM(res) {
   console.log(`in updateDOM()`);
+  // fetch the latest data
+  $.ajax({ method: `GET`, url: `/results` }).then(renderToDOM);
+}
+
+function renderToDOM(res) {
+  console.log(`in renderToDOM`);
+  console.log(`response is`, res);
+  // update the latest calc's results
+  $(`#currentResultContainer`).text(res.latestResult);
+  // update the results history
+  $(`#resultsHistory`).empty();
+  for (let result of res.resultsHistory) {
+    $(`#resultsHistory`).append(`
+      <li class="oldResult">${result}</li>
+    `);
+  }
 }
