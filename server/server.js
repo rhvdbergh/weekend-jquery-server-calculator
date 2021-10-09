@@ -31,6 +31,9 @@ app.post(`/calculate`, (req, res) => {
   let formula = req.body.formulaToCalculate;
   let numbers = [];
   let operators = [];
+  // the numbers that operations will be done on
+  let num1; // num to the left of operator
+  let num2; // num to the right of operator
 
   // add 0 to the beginning of formula if the first sign is an operator
   // this is to make the calculation easier
@@ -81,15 +84,36 @@ app.post(`/calculate`, (req, res) => {
       return operation.operator === '*' || operation.operator === '/';
     });
 
+    let startFrom;
+    let endAt;
+
+    // retrieve the number before and after this index
+    // the first number should be up to just before this index, starting from:
+    // -- if this operator is the first entry in the operators array, at the start of formula
+    // -- or, just after the index of the previous operator in the operators array
+    endAt = operators[nextOperationIndex].index;
+    nextOperationIndex === 0
+      ? (startFrom = 0)
+      : (startFrom = operators[nextOperationIndex - 1].index + 1);
+    num1 = formula.substring(startFrom, endAt);
+    // the second number should start just after this index, up to:
+    // -- if this is operator is the last entry in the operators array, up to the end of the array
+    // -- or, just before the index of the next operation in the operators array
+    startFrom = operators[nextOperationIndex].index + 1;
+    nextOperationIndex === operators.length - 1
+      ? (num2 = formula.substring(startFrom))
+      : (num2 = formule.substring(
+          startFrom,
+          operators[nextOperationIndex].index
+        ));
+
+    console.log(`this is num1`, num1);
+    console.log(`this is num2`, num2);
+
     if (nextOperationIndex !== -1) {
+      // there's no * or / or there aren't any left, so
+      nextOperationIndex === 0;
       // we're doing either * or /
-      // retrieve the number before and after this index
-      // the first number should be up to just before this index, starting from:
-      // -- if this operator is the first entry in the operators array, at the start of formula
-      // -- or, just after the index of the previous operator in the operators array
-      // the second number should start just after this index, up to:
-      // -- if this is operator is the last entry in the operators array, up to the end of the array
-      // -- or, just before the index of the next operation in the operators array
     }
 
     // if there are no * or / left, do the operations in order
