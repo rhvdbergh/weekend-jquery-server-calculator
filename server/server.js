@@ -84,6 +84,12 @@ app.post(`/calculate`, (req, res) => {
       return operation.operator === '*' || operation.operator === '/';
     });
 
+    if (nextOperationIndex !== -1) {
+      // there's no * or / or there aren't any left, so
+      // we take the operators in the order they appear
+      nextOperationIndex = 0;
+    }
+
     let startFrom;
     let endAt;
 
@@ -102,19 +108,13 @@ app.post(`/calculate`, (req, res) => {
     startFrom = operators[nextOperationIndex].index + 1;
     nextOperationIndex === operators.length - 1
       ? (num2 = formula.substring(startFrom))
-      : (num2 = formule.substring(
+      : (num2 = formula.substring(
           startFrom,
           operators[nextOperationIndex].index
         ));
 
     console.log(`this is num1`, num1);
     console.log(`this is num2`, num2);
-
-    if (nextOperationIndex !== -1) {
-      // there's no * or / or there aren't any left, so
-      nextOperationIndex === 0;
-      // we're doing either * or /
-    }
 
     // if there are no * or / left, do the operations in order
 
