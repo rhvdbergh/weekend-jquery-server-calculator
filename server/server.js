@@ -34,6 +34,18 @@ app.post(`/calculate`, (req, res) => {
   let num1; // num to the left of operator
   let num2; // num to the right of operator
 
+  // validation: only accept formulas that include 01234567890+-*/
+  // otherwise reject with a bad request
+  for (let char of formula) {
+    if (!`01234567890+-*/`.includes(char)) {
+      // there's a char here that we can't process
+      // so send a bad request
+      console.log(`formula contains a character that we can't operate on`);
+      res.sendStatus(400);
+      return;
+    }
+  }
+
   // add 0 to the beginning of formula if the first sign is an operator
   // this is to make the calculation easier
   if (`+-*`.includes(formula[0])) {
