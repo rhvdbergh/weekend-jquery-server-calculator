@@ -83,7 +83,7 @@ function clearInputs() {
   // clear the inputs
   $(`.calcInput`).val(``);
   // focus on the first number
-  $(`#firstNumberInput`).focus();
+  $(`#calcInput`).focus();
   // reset the mathSymbol
   mathSymbol = null;
   // remove the selectedSymbol class from the math symbols
