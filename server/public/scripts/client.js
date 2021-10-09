@@ -18,6 +18,7 @@ function onReady() {
   // add event listeners
   $(`.mathSymbolButton`).on(`click`, changeSymbol);
   $(`#equalsButton`).on(`click`, submitCalc);
+  $(`#clearButton`).on(`click`, clearInputs);
 }
 
 //
@@ -25,6 +26,9 @@ function changeSymbol() {
   // the text of this button is the math operator needed
   mathSymbol = $(this).text();
   console.log('mathSymbol is', mathSymbol);
+  // add the selected button class so the user knows which
+  // math symbol was selected last
+  $(this).addClass(`selectedSymbol`);
 }
 
 function submitCalc() {
@@ -37,10 +41,8 @@ function submitCalc() {
       mathSymbol,
     },
   }).then((res) => {
-    // clear the inputs
-    $(`.calcInput`).val(``);
-    // focus on the first number
-    $(`#firstNumberInput`).focus();
+    // clear inputs
+    clearInputs();
     // a calc has been submitted, so
     beforeFirstSubmit = false;
     updateDOM(res);
@@ -61,7 +63,7 @@ function renderToDOM(res) {
   // if the user hasn't submitted any calculation,
   // don't display this information!
   if (!beforeFirstSubmit) {
-    $(`#currentResultContainer`).text(res.latestResult);
+    $(`#currentResult`).text(res.latestResult);
   }
   // update the results history
   $(`#resultsHistory`).empty();
@@ -70,4 +72,15 @@ function renderToDOM(res) {
       <li class="oldResult">${result}</li>
     `);
   }
+}
+
+function clearInputs() {
+  // clear the inputs
+  $(`.calcInput`).val(``);
+  // focus on the first number
+  $(`#firstNumberInput`).focus();
+  // reset the mathSymbol
+  mathSymbol = null;
+  // remove the selectedSymbol class from the math symbols
+  $(`.mathSymbolButton`).removeClass(`selectedSymbol`);
 }
