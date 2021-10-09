@@ -70,7 +70,7 @@ app.post(`/calculate`, (req, res) => {
   while (operators.length > 0) {
     // determine the order of calculations
     // if there's a * or / do that first
-    // the following .find() returns the index of the first / or *, or returns
+    // the following .findIndex() returns the index of the first / or *, or returns
     // -1 if there aren't any left
     nextOperationIndex = operators.findIndex((operation) => {
       console.log(`in the nextOpI .find(), operation is:`, operation);
@@ -81,9 +81,20 @@ app.post(`/calculate`, (req, res) => {
       return operation.operator === '*' || operation.operator === '/';
     });
 
-    console.log(`nextOperationIndex is`, nextOperationIndex);
-    nextOperationIndex = 0;
+    if (nextOperationIndex !== -1) {
+      // we're doing either * or /
+      // retrieve the number before and after this index
+      // the first number should be up to just before this index, starting from:
+      // -- if this operator is the first entry in the operators array, at the start of formula
+      // -- or, just after the index of the previous operator in the operators array
+      // the second number should start just after this index, up to:
+      // -- if this is operator is the last entry in the operators array, up to the end of the array
+      // -- or, just before the index of the next operation in the operators array
+    }
+
     // if there are no * or / left, do the operations in order
+
+    //remove this operator from the operators array
     operators.splice(nextOperationIndex, 1);
   }
   // then save result
