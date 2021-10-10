@@ -84,12 +84,34 @@ function clearInputs() {
   $(`.calcInput`).val(``);
   // focus on the first number
   $(`#calcInput`).focus();
-  // reset the mathSymbol
-  // mathSymbol = null;
-  // remove the selectedSymbol class from the math symbols
-  // $(`.clearableButton`).removeClass(`selectedSymbol`);
 }
 
 function validInput(formula) {
+  // validation: only accept formulas that include 01234567890+-*/
+  // otherwise reject with a bad request
+  for (let char of formula) {
+    if (!`01234567890+-*/`.includes(char)) {
+      // there's a char here that we can't process
+      console.log(
+        `there's a char in the input field that can't be processed mathematically`
+      );
+      return false;
+    }
+  }
+  // if the first operator is /, this will cause a division by zero
+  if (formula[0] === `/`) {
+    console.log(
+      `formula can't start by / --- division by zero error will result`
+    );
+    return false;
+  }
+  // test whether any two operators are directly next to each other
+  for (let i = 0; i < formula.length - 1; i++) {
+    if (`+-*/`.includes(formula[i]) && `+-*/`.includes(formula[i + 1])) {
+      // the operators are directly next to each other!
+      console.log(`the operators are next to each other`);
+      return false;
+    }
+  }
   return true;
 }

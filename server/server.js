@@ -33,7 +33,7 @@ app.post(`/calculate`, (req, res) => {
   let num2; // num to the right of operator
 
   // if the formula is invalid, send back a bad request signal
-  if (!validInput(formula, operators)) {
+  if (!validInput(formula)) {
     res.sendStatus(400);
     return;
   }
@@ -139,7 +139,7 @@ app.get(`/results`, (req, res) => {
   });
 });
 
-function validInput(formula, operators) {
+function validInput(formula) {
   // validation: only accept formulas that include 01234567890+-*/
   // otherwise reject with a bad request
   for (let char of formula) {
@@ -153,15 +153,11 @@ function validInput(formula, operators) {
     return false;
   }
   // test whether any two operators are directly next to each other
-  // only do this test if there's more than one operator
-  // if they are next to each other, send a Bad Request
-  if (operators.length > 0) {
-    for (let i = 0; i < operators.length - 1; i++) {
-      if (operators[i].index + 1 === operators[i + 1].index) {
-        // the operators are directly next to each other!
-        console.log(`the operators are next to each other`);
-        return false;
-      }
+  for (let i = 0; i < formula.length - 1; i++) {
+    if (`+-*/`.includes(formula[i]) && `+-*/`.includes(formula[i + 1])) {
+      // the operators are directly next to each other!
+      console.log(`the operators are next to each other`);
+      return false;
     }
   }
   return true;
