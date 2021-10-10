@@ -16,7 +16,7 @@ app.use(express.static(`./server/public`));
 // set up the bodyParser so we can use req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log(`Server listening on port ${PORT}`);
   console.log(`READY TO DO SOME MATH YEAH!`);
 });
