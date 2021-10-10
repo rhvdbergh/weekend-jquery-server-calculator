@@ -13,8 +13,8 @@
     <header>
       <h1>Server Side Calculator</h1>
     </header>
-    <main class="container">
-      <div id="calculatorInputs">
+    <main id="mainContainer" class="container">
+      <div id="calcContainer" class="calcContainer container">
         <input type="text" id="calcInput" class="calcInput" placeholder="0" />
         <button id="additionButton" class="symbolButton clearableButton">
           +
@@ -60,8 +60,9 @@
         </button>
         <button id="equalsButton">=</button>
         <button id="clearButton">C</button>
-      </div>
-      <div id="currentResultContainer" class="container">
+        <button id="decimalButton" class="symbolButton clearableButton">
+          .
+        </button>
         <h2 id="currentResult">0</h2>
       </div>
       <div id="resultsHistoryContainer">
