@@ -7,7 +7,19 @@ body {
   margin: 0px;
   padding: 0px;
   font-family: monospace;
+  background-color: #d8d5db;
 }
+
+ul {
+  list-style-type: none;
+}
+
+.clearableButton {
+  border-radius: 15px;
+  background-color: #eae8ff;
+  color: #2d3142;
+}
+
 #mainContainer {
   width: 400px;
   display: flex;
@@ -24,12 +36,16 @@ body {
   margin: 50px;
   padding: 5px;
   gap: 5px;
-  background-color: darkcyan;
+  background-color: #2d3142;
 }
 
 #calcInput {
   grid-column: 1 / span 3;
   grid-row: 1;
+  border-radius: 5px;
+  color: #2d3142;
+  padding: 10px;
+  overflow: hidden;
 }
 
 #equalsButton {
@@ -103,7 +119,7 @@ body {
 
 header {
   height: 100px;
-  background-color: blue;
+  background-color: #adacb5;
   margin: 0px;
   padding: 0px;
 }
@@ -112,4 +128,5 @@ h1 {
   margin: 0px;
   padding: 30px;
   text-align: center;
+  color: #2d3142;
 }
