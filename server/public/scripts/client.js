@@ -63,7 +63,6 @@ function submitCalc() {
   // have been filled in and selected
   // let firstNumber = $(`#firstNumberInput`).val();
   // let secondNumber = $(`#secondNumberInput`).val();
-  // TODO: send alert on invalid input
   let formula = $(`#calcInput`).val();
   if (validInput(formula)) {
     getCalc(formula);
