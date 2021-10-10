@@ -87,7 +87,7 @@ app.post(`/calculate`, (req, res) => {
     nextOperationIndex === operators.length - 1
       ? (num2 = Number(formula.substring(startFrom)))
       : (num2 = Number(
-          formula.substring(startFrom, operators[nextOperationIndex].index)
+          formula.substring(startFrom, operators[nextOperationIndex + 1].index)
         ));
 
     console.log(`this is num1`, num1);
