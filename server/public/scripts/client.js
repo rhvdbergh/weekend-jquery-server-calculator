@@ -148,6 +148,10 @@ function validInput(formula) {
   }
   // if there are no operators, no calc can be performed
   if (!containsOperators) {
+    console.log(`the formula contains no operators`);
+    alert(
+      `There are no mathematical operators in this formula. Please correct.`
+    );
     return false;
   }
   return true;
