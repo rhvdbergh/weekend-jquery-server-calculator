@@ -139,6 +139,13 @@ app.get(`/results`, (req, res) => {
   });
 });
 
+// resets the data on the server, including the latest results
+app.delete(`/clear-history`, (req, res) => {
+  resultsHistory = [];
+  latestResult = 0;
+  res.send(200);
+});
+
 function validInput(formula) {
   // validation: only accept formulas that include 01234567890+-*/
   // otherwise reject with a bad request

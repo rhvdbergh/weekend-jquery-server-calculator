@@ -19,6 +19,7 @@ function onReady() {
   $(`.symbolButton`).on(`click`, addSymbol);
   $(`#equalsButton`).on(`click`, submitCalc);
   $(`#clearButton`).on(`click`, clearInputs);
+  $(`#clearHistoryButton`).on(`click`, clearHistory);
 }
 
 //
@@ -35,7 +36,7 @@ function submitCalc() {
   // have been filled in and selected
   // let firstNumber = $(`#firstNumberInput`).val();
   // let secondNumber = $(`#secondNumberInput`).val();
-  // TODO: validate before input, currently set to true to run
+  // TODO: send alert on invalid input
   let formula = $(`#calcInput`).val();
   if (validInput(formula)) {
     $.ajax({
@@ -84,6 +85,11 @@ function clearInputs() {
   $(`.calcInput`).val(``);
   // focus on the first number
   $(`#calcInput`).focus();
+}
+
+// clears history and updatesDOM
+function clearHistory() {
+  $.ajax({ method: 'DELETE', url: `/clear-history` }).then(updateDOM);
 }
 
 function validInput(formula) {
