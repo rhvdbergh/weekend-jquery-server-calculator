@@ -1,6 +1,8 @@
 const express = require(`express`);
 const bodyParser = require(`body-parser`);
 
+// Heroku will assign a PORT automatically
+// see the app.listen below
 const PORT = 5000;
 
 const app = express();
@@ -16,6 +18,8 @@ app.use(express.static(`./server/public`));
 // set up the bodyParser so we can use req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// heroku will set the port automatically via process.env.PORT
+// if there is no process.env.PORT, fall back on PORT assigned as const above
 app.listen(process.env.PORT || PORT, () => {
   console.log(`Server listening on port ${PORT}`);
   console.log(`READY TO DO SOME MATH YEAH!`);

@@ -67,6 +67,8 @@ function submitCalc() {
   let formula = $(`#calcInput`).val();
   if (validInput(formula)) {
     getCalc(formula);
+  } else {
+    alert(`Please enter a correct formula.`);
   } // end if
 }
 
@@ -139,9 +141,6 @@ function validInput(formula) {
       console.log(
         `there's a char in the input field that can't be processed mathematically`
       );
-      alert(
-        `There's a char in the input field that can't be processed mathematically. Please correct.`
-      );
       return false;
     }
   }
@@ -149,9 +148,6 @@ function validInput(formula) {
   if (formula[0] === `/`) {
     console.log(
       `formula can't start by / --- division by zero error will result`
-    );
-    alert(
-      `The formula can't start with division - a division by zero error will result. Please correct.`
     );
     return false;
   }
@@ -167,18 +163,12 @@ function validInput(formula) {
     if (`+-*/`.includes(formula[i]) && `+-*/`.includes(formula[i + 1])) {
       // the operators are directly next to each other!
       console.log(`the operators are next to each other`);
-      alert(
-        `There are two mathematical operators right next to each other. Please correct.`
-      );
       return false;
     }
   }
   // if there are no operators, no calc can be performed
   if (!containsOperators) {
     console.log(`the formula contains no operators`);
-    alert(
-      `There are no mathematical operators in this formula. Please correct.`
-    );
     return false;
   }
   return true;
