@@ -4,6 +4,11 @@ console.log(`in js`);
 // used to display latestResult from server or not
 let beforeFirstSubmit = true;
 
+// if the calcInput is displaying results, it's OK to start adding operators
+// but NOT OK to start adding numbers
+// this is how most calculators work
+let firstEntryAfterResultsReceived = false;
+
 $(onReady);
 
 // save the latest clicked math symbol
@@ -25,11 +30,25 @@ function onReady() {
 
 //
 function addSymbol() {
+  let newValue;
+  // get the user's input
+  let userInput = $(this).text().trim();
   // add the symbol of the selected button to the calculation
   // use trim() to delete any whitespace added by html formatting
-  let newValue = $(`#calcInput`).val() + $(this).text().trim();
+  // if the previous result is displaying on the calcInput screen
+  // we should add the symbol if it is an operator
+  // but if not, we should first clear the calcInput
+  if (
+    (firstEntryAfterResultsReceived && `+-*/`.includes(userInput)) ||
+    !firstEntryAfterResultsReceived
+  ) {
+    newValue = $(`#calcInput`).val() + userInput;
+  } else {
+    newValue = userInput;
+  }
+
   $(`#calcInput`).val(newValue);
-  // $(this).addClass(`selectedSymbol`);
+  firstEntryAfterResultsReceived = false;
 }
 
 function submitCalc() {
@@ -75,6 +94,7 @@ function renderToDOM(res) {
   // don't display this information!
   if (!beforeFirstSubmit) {
     $(`#calcInput`).val(res.latestResult);
+    firstEntryAfterResultsReceived = true;
   }
   // update the results history
   $(`#resultsHistory`).empty();
