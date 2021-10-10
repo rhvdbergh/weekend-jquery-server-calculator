@@ -125,7 +125,7 @@ app.post(`/calculate`, (req, res) => {
   } // end while
   // then save result
   // save the formula as received by user
-  resultsHistory.push(req.body.formulaToCalculate);
+  resultsHistory.unshift(req.body.formulaToCalculate);
   console.log(latestResult);
   console.log(resultsHistory);
   res.sendStatus(201);
