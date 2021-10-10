@@ -107,7 +107,7 @@ function validInput(formula) {
   // validation: only accept formulas that include 01234567890+-*/
   // otherwise reject with a bad request
   for (let char of formula) {
-    if (!`01234567890+-*/ `.includes(char)) {
+    if (!`.01234567890+-*/ `.includes(char)) {
       // there's a char here that we can't process
       console.log(
         `there's a char in the input field that can't be processed mathematically`

@@ -151,7 +151,7 @@ function validInput(formula) {
   // otherwise reject with a bad request
 
   for (let char of formula) {
-    if (!`01234567890+-*/ `.includes(char)) {
+    if (!`.01234567890+-*/ `.includes(char)) {
       // there's a char here that we can't process
       return false;
     }
