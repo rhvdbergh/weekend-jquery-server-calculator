@@ -74,7 +74,7 @@ function renderToDOM(res) {
   // if the user hasn't submitted any calculation,
   // don't display this information!
   if (!beforeFirstSubmit) {
-    $(`#currentResult`).text(res.latestResult);
+    $(`#calcInput`).val(res.latestResult);
   }
   // update the results history
   $(`#resultsHistory`).empty();

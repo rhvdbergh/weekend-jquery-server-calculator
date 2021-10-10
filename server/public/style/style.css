@@ -9,101 +9,96 @@ body {
   font-family: monospace;
 }
 #mainContainer {
-  /* background-color: darkcyan; */
-  /* display: flex; */
-  /* flex-wrap: wrap-reverse; */
   width: 400px;
   display: flex;
   justify-content: center;
-  /* align-items: center; */
   flex-direction: column;
   margin: auto;
 }
 
 #calcContainer {
+  height: 350px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   margin: 50px;
   padding: 5px;
-  /* display: flex; */
   gap: 5px;
-  /* width: 300px; */
   background-color: darkcyan;
 }
 
 #calcInput {
   grid-column: 1 / span 3;
-  grid-row: 2;
-}
-
-#currentResult {
-  grid-column: 1 / span 4;
   grid-row: 1;
-  background-color: whitesmoke;
-  /* margin: 5px; */
 }
 
 #equalsButton {
-  grid-row: 6;
+  grid-row: 5;
   grid-column: 3;
 }
 
 #clearButton {
-  grid-row: 2;
+  grid-row: 1;
 }
 
 #number0Button {
+  grid-row: 5;
+  grid-column: 1;
 }
 
 #number1Button {
-  grid-row: 5;
+  grid-row: 4;
   grid-column: 1;
 }
 
 #number2Button {
-  grid-row: 5;
+  grid-row: 4;
   grid-column: 2;
 }
 
 #number3Button {
-  grid-row: 5;
+  grid-row: 4;
   grid-column: 3;
 }
 
 #number4Button {
-  grid-row: 4;
+  grid-row: 3;
   grid-column: 1;
 }
 
 #number5Button {
-  grid-row: 4;
+  grid-row: 3;
   grid-column: 2;
 }
 
 #number6Button {
-  grid-row: 4;
+  grid-row: 3;
   grid-column: 3;
 }
 
 #number7Button {
-  grid-row: 3;
+  grid-row: 2;
   grid-column: 1;
 }
 
 #number8Button {
-  grid-row: 3;
+  grid-row: 2;
   grid-column: 2;
 }
 
 #number9Button {
-  grid-row: 3;
+  grid-row: 2;
   grid-column: 3;
 }
 
 #divisionButton {
-  grid-row: 6;
+  grid-row: 5;
   grid-column: 4;
+}
+
+#decimalButton {
+  grid-row: 5;
+  grid-column: 2;
 }
 
 header {
