@@ -149,8 +149,9 @@ app.delete(`/clear-history`, (req, res) => {
 function validInput(formula) {
   // validation: only accept formulas that include 01234567890+-*/
   // otherwise reject with a bad request
+
   for (let char of formula) {
-    if (!`01234567890+-*/`.includes(char)) {
+    if (!`01234567890+-*/ `.includes(char)) {
       // there's a char here that we can't process
       return false;
     }
@@ -182,6 +183,9 @@ function sanitizeFormula(formula) {
   if (`+-*/`.includes(formula[formula.length - 1])) {
     formula += `0`;
   }
+
+  // if there's any whitespace, remove it
+  formula.replace(' ', '');
   return formula;
 }
 
