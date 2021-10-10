@@ -27,6 +27,21 @@ app.listen(process.env.PORT || PORT, () => {
   console.log(`READY TO DO SOME MATH YEAH!`);
 });
 
+// return the latest result and the history of results
+app.get(`/results`, (req, res) => {
+  res.send({
+    latestResult,
+    resultsHistory,
+  });
+});
+
+// resets the data on the server, including the latest results
+app.delete(`/clear-history`, (req, res) => {
+  resultsHistory = [];
+  latestResult = 0;
+  res.send(200);
+});
+
 // receive a formula and do the calc for that formula
 app.post(`/calculate`, (req, res) => {
   console.log(`POST /calculate`);
@@ -135,19 +150,4 @@ app.post(`/calculate`, (req, res) => {
   console.log(latestResult);
   console.log(resultsHistory);
   res.sendStatus(201);
-});
-
-// return the latest result and the history of results
-app.get(`/results`, (req, res) => {
-  res.send({
-    latestResult,
-    resultsHistory,
-  });
-});
-
-// resets the data on the server, including the latest results
-app.delete(`/clear-history`, (req, res) => {
-  resultsHistory = [];
-  latestResult = 0;
-  res.send(200);
 });
