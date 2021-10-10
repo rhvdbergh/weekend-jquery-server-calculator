@@ -18,22 +18,25 @@ ul {
   border-radius: 15px;
   background-color: #eae8ff;
   color: #2d3142;
+  font-size: 1.5em;
 }
 
 #mainContainer {
-  width: 400px;
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  margin: auto;
+  flex-wrap: wrap;
 }
 
 #calcContainer {
+  width: 350px;
   height: 350px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, 1fr);
-  margin: 50px;
+  margin-top: 150px;
+  margin-bottom: 50px;
+  margin-left: 50px;
+  margin-right: 50px;
   padding: 5px;
   gap: 5px;
   background-color: #2d3142;
@@ -46,15 +49,18 @@ ul {
   color: #2d3142;
   padding: 10px;
   overflow: hidden;
+  font-size: 1.5em;
 }
 
 #equalsButton {
   grid-row: 5;
   grid-column: 3;
+  background-color: #b0d7ff;
 }
 
 #clearButton {
   grid-row: 1;
+  background-color: #b0d7ff;
 }
 
 #number0Button {
@@ -117,11 +123,29 @@ ul {
   grid-column: 2;
 }
 
+#resultsHistoryContainer {
+  width: 350px;
+  height: 360px;
+  overflow: scroll;
+  margin-top: 150px;
+}
+
+#clearHistoryButton {
+  border-radius: 3px;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
+  color: #2d3142;
+  background-color: #adacb5;
+}
+
 header {
   height: 100px;
   background-color: #adacb5;
   margin: 0px;
   padding: 0px;
+  border-bottom: 3px solid #2d3142;
 }
 
 h1 {
@@ -129,4 +153,20 @@ h1 {
   padding: 30px;
   text-align: center;
   color: #2d3142;
+  font-size: 2.5rem;
+}
+
+ul {
+  background-color: #eae8ff;
+}
+
+li {
+  font-size: 2em;
+  padding: 10px 5px;
+}
+
+@media screen and (max-width: 588px) {
+  header {
+    height: 150px;
+  }
 }
