@@ -20,6 +20,7 @@ function onReady() {
   $(`#equalsButton`).on(`click`, submitCalc);
   $(`#clearButton`).on(`click`, clearInputs);
   $(`#clearHistoryButton`).on(`click`, clearHistory);
+  $(`#resultsHistory`).on(`click`, `.oldResult`, rerunOldResult);
 }
 
 //
@@ -39,20 +40,24 @@ function submitCalc() {
   // TODO: send alert on invalid input
   let formula = $(`#calcInput`).val();
   if (validInput(formula)) {
-    $.ajax({
-      method: 'POST',
-      url: '/calculate',
-      data: {
-        formulaToCalculate: formula,
-      },
-    }).then((res) => {
-      // clear inputs
-      clearInputs();
-      // a calc has been submitted, so
-      beforeFirstSubmit = false;
-      updateDOM(res);
-    });
+    getCalc(formula);
   } // end if
+}
+
+function getCalc(formula) {
+  $.ajax({
+    method: 'POST',
+    url: '/calculate',
+    data: {
+      formulaToCalculate: formula,
+    },
+  }).then((res) => {
+    // clear inputs
+    clearInputs();
+    // a calc has been submitted, so
+    beforeFirstSubmit = false;
+    updateDOM(res);
+  });
 }
 
 function updateDOM() {
@@ -90,6 +95,12 @@ function clearInputs() {
 // clears history and updatesDOM
 function clearHistory() {
   $.ajax({ method: 'DELETE', url: `/clear-history` }).then(updateDOM);
+}
+
+function rerunOldResult() {
+  console.log(`in rerunOldResult`);
+  console.log(`this is`, $(this));
+  getCalc($(this).text());
 }
 
 function validInput(formula) {
