@@ -112,6 +112,9 @@ function validInput(formula) {
       console.log(
         `there's a char in the input field that can't be processed mathematically`
       );
+      alert(
+        `There's a char in the input field that can't be processed mathematically. Please correct.`
+      );
       return false;
     }
   }
@@ -120,6 +123,9 @@ function validInput(formula) {
     console.log(
       `formula can't start by / --- division by zero error will result`
     );
+    alert(
+      `The formula can't start with division - a division by zero error will result. Please correct.`
+    );
     return false;
   }
   // test whether any two operators are directly next to each other
@@ -127,6 +133,9 @@ function validInput(formula) {
     if (`+-*/`.includes(formula[i]) && `+-*/`.includes(formula[i + 1])) {
       // the operators are directly next to each other!
       console.log(`the operators are next to each other`);
+      alert(
+        `There are two mathematical operators right next to each other. Please correct.`
+      );
       return false;
     }
   }
