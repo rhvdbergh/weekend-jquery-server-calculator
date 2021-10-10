@@ -31,8 +31,15 @@ function onReady() {
 //
 function addSymbol() {
   let newValue;
+  // grab the current display on the calc
+  let calcInputVal = $(`#calcInput`).val();
   // get the user's input
   let userInput = $(this).text().trim();
+
+  // if there's only 0 on the screen and the user inputs ., display 0.
+  if (calcInputVal === '' && userInput === '.') {
+    userInput = '0.';
+  }
   // add the symbol of the selected button to the calculation
   // use trim() to delete any whitespace added by html formatting
   // if the previous result is displaying on the calcInput screen
@@ -42,7 +49,7 @@ function addSymbol() {
     (firstEntryAfterResultsReceived && `+-*/`.includes(userInput)) ||
     !firstEntryAfterResultsReceived
   ) {
-    newValue = $(`#calcInput`).val() + userInput;
+    newValue = calcInputVal + userInput;
   } else {
     newValue = userInput;
   }
