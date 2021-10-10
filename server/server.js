@@ -21,94 +21,34 @@ app.listen(PORT, () => {
   console.log(`READY TO DO SOME MATH YEAH!`);
 });
 
+// receive a formula and do the calc for that formula
 app.post(`/calculate`, (req, res) => {
   console.log(`POST /calculate`);
-  // do some logic, save the result, and then
-  // send back the status to say it's created (that's probably the best code to use)
 
-  latestResult = 0;
-
-  let formula = req.body.formulaToCalculate;
-  let operators = [];
+  // sanitize the input to make sure there aren't any operators at the start or end
+  let formula = sanitizeFormula(req.body.formulaToCalculate);
+  let operators = findOperatorIndices(formula); // an array of operator objects, each containing index and math symbol
   // the numbers that operations will be done on
   let num1; // num to the left of operator
   let num2; // num to the right of operator
 
-  // validation: only accept formulas that include 01234567890+-*/
-  // otherwise reject with a bad request
-  for (let char of formula) {
-    if (!`01234567890+-*/`.includes(char)) {
-      // there's a char here that we can't process
-      // so send a bad request
-      console.log(`formula contains a character that we can't operate on`);
-      res.sendStatus(400);
-      return;
-    }
-  }
-
-  // add 0 to the beginning of formula if the first sign is an operator
-  // this is to make the calculation easier
-  if (`+-*`.includes(formula[0])) {
-    formula = `0${formula}`;
-    console.log(`first included +-* so 0 added:`, formula);
-  }
-
-  // but if the operator is /, this will cause a division by zero
-  // so send a Bad Request status code
-  if (formula[0] === `/`) {
+  // if the formula is invalid, send back a bad request signal
+  if (!validInput(formula, operators)) {
     res.sendStatus(400);
     return;
   }
 
-  // if the last sign is an operator, add 0 to the end
-  if (`+-*/`.includes(formula[formula.length - 1])) {
-    formula += `0`;
-  }
-
-  // find the indices of the operators
-  for (let i = 0; i < formula.length; i++) {
-    // if it's an operator, push it to the operators array
-    // include the operator and the index
-    if (`+-*/`.includes(formula[i])) {
-      operators.push({
-        operator: formula[i],
-        index: i,
-      });
-    }
-  }
-  // test whether any two operators are directly next to each other
-  // only do this test if there's more than one operator
-  // if they are next to each other, send a Bad Request
-  if (operators.length > 0) {
-    for (let i = 0; i < operators.length - 1; i++) {
-      if (operators[i].index + 1 === operators[i + 1].index) {
-        // the operators are directly next to each other!
-        console.log(`the operators are next to each other`);
-        res.sendStatus(400);
-        return;
-      }
-    }
-  }
+  // reset latestResult to 0
+  latestResult = 0;
 
   // // do the calculations one for one until complete
-  // let nextOperationIndex;
   while (operators.length > 0) {
     let result = 0;
 
     // recalculate the operators after formula has changed
-    // because a calc has been done
-    operators = [];
-    // find the indices of the operators
-    for (let i = 0; i < formula.length; i++) {
-      // if it's an operator, push it to the operators array
-      // include the operator and the index
-      if (`+-*/`.includes(formula[i])) {
-        operators.push({
-          operator: formula[i],
-          index: i,
-        });
-      }
-    }
+    // because a calc has been done and the formula has changed
+    operators = findOperatorIndices(formula);
+
     // determine the order of calculations
     // if there's a * or / do that first
     // the following .findIndex() returns the index of the first / or *, or returns
@@ -198,6 +138,65 @@ app.get(`/results`, (req, res) => {
     resultsHistory,
   });
 });
+
+function validInput(formula, operators) {
+  // validation: only accept formulas that include 01234567890+-*/
+  // otherwise reject with a bad request
+  for (let char of formula) {
+    if (!`01234567890+-*/`.includes(char)) {
+      // there's a char here that we can't process
+      return false;
+    }
+  }
+  // if the first operator is /, this will cause a division by zero
+  if (formula[0] === `/`) {
+    return false;
+  }
+  // test whether any two operators are directly next to each other
+  // only do this test if there's more than one operator
+  // if they are next to each other, send a Bad Request
+  if (operators.length > 0) {
+    for (let i = 0; i < operators.length - 1; i++) {
+      if (operators[i].index + 1 === operators[i + 1].index) {
+        // the operators are directly next to each other!
+        console.log(`the operators are next to each other`);
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function sanitizeFormula(formula) {
+  // add 0 to the beginning of formula if the first sign is an operator
+  // this is to make the calculation easier
+  if (`+-*`.includes(formula[0])) {
+    formula = `0${formula}`;
+    console.log(`first included +-* so 0 added:`, formula);
+  }
+
+  // if the last sign is an operator, add 0 to the end
+  if (`+-*/`.includes(formula[formula.length - 1])) {
+    formula += `0`;
+  }
+  return formula;
+}
+
+function findOperatorIndices(formula) {
+  let operators = [];
+  // find the indices of the operators in the formula
+  for (let i = 0; i < formula.length; i++) {
+    // if it's an operator, push it to the operators array
+    // include the operator and the index
+    if (`+-*/`.includes(formula[i])) {
+      operators.push({
+        operator: formula[i],
+        index: i,
+      });
+    }
+  }
+  return operators;
+}
 
 // function add(num1, num2) {
 //   return num1 + num2;

@@ -90,4 +90,6 @@ function clearInputs() {
   // $(`.clearableButton`).removeClass(`selectedSymbol`);
 }
 
-function validInput(formula) {}
+function validInput(formula) {
+  return true;
+}
